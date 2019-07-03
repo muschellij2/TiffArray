@@ -1,0 +1,36 @@
+Package: TiffArray
+Title: HDF5 Delayed Array for Tiff Objects
+Version: 0.99.0
+Authors@R: c(person(given = "John",
+                    family = "Muschelli",
+                    email = "muschellij2@gmail.com",
+                    role = c("aut", "cre"),
+                    comment = c(ORCID = "0000-0001-6469-1750")),
+             person(given = "Alessandra",
+                    family = "Valcarcel",
+                    role = "aut",
+                    email = "alval@pennmedicine.upenn.edu"))
+Description: Tiff Objects as DelayedArrays backended in HDF5.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat,
+    DelayedMatrixStats,
+    covr,
+    pbapply
+VignetteBuilder: knitr
+Imports: 
+    HDF5Array,
+    rhdf5,
+    ijtiff,
+    DelayedArray,
+    S4Vectors,
+    methods
+RoxygenNote: 6.1.1
+URL: https://github.com/muschellij2/TiffArray
+BugReports: https://github.com/muschellij2/TiffArray/issues
+Roxygen: list(markdown = TRUE)
+biocViews: Infrastructure, DataRepresentation, DataImport

@@ -1,0 +1,14 @@
+^TiffArray\.Rproj$
+^\.Rproj\.user$
+^LICENSE\.md$
+^README\.Rmd$
+^\.travis\.yml$
+^appveyor\.yml$
+^R/coercion_using_as\.R$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^codecov\.yml$
+^cran-comments\.md$
+^\.DS_Store$
+^\.Rhistory$
