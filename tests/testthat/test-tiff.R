@@ -1,39 +1,38 @@
-testthat::context("Trying to make NiftiArray objects")
+testthat::context("Trying to make TiffArray objects")
 
-nii_fname = system.file("extdata", "example.nii.gz",
-                        package = "RNifti")
+nii_fname = system.file("img", "Rlogo.tif", package = "ijtiff")
 h5_fname = tempfile(fileext = ".h5")
-img = RNifti::readNifti(nii_fname)
-img_hdr = nifti_header(img)
+img = ijtiff::read_tif(nii_fname)
+img_hdr = tiff_header(img)
 
 check_array = function(x) {
-  testthat::expect_is(x, "NiftiArray")
+  testthat::expect_is(x, "TiffArray")
   testthat::expect_is(x, "HDF5Array")
   testthat::expect_is(x, "DelayedArray")
 }
 testthat::test_that("Writing an Array", {
-  res = writeNiftiArray(img)
+  res = writeTiffArray(img)
   check_array(res)
 })
 
 testthat::test_that("Writing and Reading an Array", {
 
-  res = writeNiftiArray(img, filepath = h5_fname)
+  res = writeTiffArray(img, filepath = h5_fname)
   testthat::expect_true(file.exists(h5_fname))
   check_array(res)
 
-  hdr = nifti_header(res)
-  testthat::expect_is(hdr, "niftiHeader")
+  hdr = Tiff_header(res)
+  testthat::expect_is(hdr, "TiffHeader")
   rm(res)
 
-  res = NiftiArray(h5_fname)
+  res = TiffArray(h5_fname)
   check_array(res)
 })
 
 testthat::test_that("Checking equivalent headers", {
 
-  res = writeNiftiArray(img)
-  hdr = nifti_header(res)
+  res = writeTiffArray(img)
+  hdr = tiff_header(res)
   rm(res)
 
   testthat::expect_true(all(names(img_hdr) == names(hdr)))
@@ -51,23 +50,20 @@ testthat::test_that("Checking equivalent headers", {
   }, a_img_hdr, a_hdr)
   rm(xx)
 
-  pd = RNifti::pixdim(hdr)
-  testthat::expect_true(all(pd == 2.5))
-  testthat::expect_equal(hdr$qoffset_x, 122.033897399902)
 
 })
 
 
-testthat::test_that("Writing and Reading just nifti file on disk", {
+testthat::test_that("Writing and Reading just tiff file on disk", {
 
-  res = writeNiftiArray(nii_fname)
+  res = writeTiffArray(nii_fname)
   check_array(res)
 
-  hdr = nifti_header(res)
-  testthat::expect_is(hdr, "niftiHeader")
+  hdr = tiff_header(res)
+  testthat::expect_is(hdr, "tiffHeader")
   rm(res)
 
-  res = NiftiArray(nii_fname)
+  res = TiffArray(nii_fname)
   check_array(res)
 })
 

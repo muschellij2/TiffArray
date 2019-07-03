@@ -3,7 +3,6 @@
 #' @param x a `tiff` object or file path to `tiff` file
 #' @param filepath The path (single character string) to the HDF5 file.
 #' @param name The name of the image in the HDF5 file.
-#' @param header_name The name of the header in the HDF5 file.
 #' @param chunkdim The dimensions of the chunks to use for
 #' writing the data to disk.
 #' Passed to [HDF5Array::writeHDF5Array].
@@ -27,6 +26,7 @@
 #' @examples
 #' nii_fname = system.file("img", "Rlogo.tif", package = "ijtiff")
 #' res = writeTiffArray(nii_fname)
+#' tiff_header(res)
 #' filepath = tempfile(fileext = ".h5")
 #' res = writeTiffArray(nii_fname, filepath = filepath)
 #' testthat::expect_error(
@@ -60,7 +60,7 @@ writeTiffArray <- function(x, filepath = tempfile(fileext = ".h5"),
       fe = tolower(fe)
     }
     if (fe %in% c("tif", "tiff")) {
-      x = ijtiff::read_tif(x)
+      x = ijtiff::read_tif(x, msg = verbose)
       run_gc = TRUE
     }
   }
@@ -69,11 +69,18 @@ writeTiffArray <- function(x, filepath = tempfile(fileext = ".h5"),
   } else {
     hdr = tiff_header(x)
   }
+  if ("dim" %in% names(hdr)) {
+    if (!("dim_" %in% names(hdr))) {
+      hdr$dim_ = hdr$dim
+    }
+    hdr$dim = NULL
+  }
+  hdr$class = NULL
   if (is.vector(x)) {
     x = matrix(x, ncol = 1)
   }
   if (!is(x, "DelayedArray")) {
-    x = array(x, dim = dim(x))
+    x = array(x, dim = as.integer(dim(x)))
   }
   HDF5Array::writeHDF5Array(x = x, filepath = filepath, name = name,
                             chunkdim = chunkdim, level = level,
@@ -82,7 +89,7 @@ writeTiffArray <- function(x, filepath = tempfile(fileext = ".h5"),
     rm(x); gc()
   }
   if (!is.null(hdr)) {
-    write_attributes(filepath = filepath, name = name, header = header)
+    write_attributes(filepath = filepath, name = name, header = hdr)
     rhdf5::h5closeAll() # Close all open HDF5 handles in the environment
   }
   TiffArray(filepath, name = name, header = header)

@@ -45,6 +45,7 @@ Write TiffArray Object
 \examples{
 nii_fname = system.file("img", "Rlogo.tif", package = "ijtiff")
 res = writeTiffArray(nii_fname)
+tiff_header(res)
 filepath = tempfile(fileext = ".h5")
 res = writeTiffArray(nii_fname, filepath = filepath)
 testthat::expect_error(

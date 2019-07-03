@@ -1,6 +1,6 @@
 library(testthat)
-library(NiftiArray)
-library(RNifti)
+library(TiffArray)
+library(ijtiff)
 library(DelayedArray)
 
-test_check("NiftiArray")
+test_check("TiffArray")

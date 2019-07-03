@@ -80,12 +80,34 @@ setMethod("tiff_header", "HDF5ArraySeed", function(image) {
   NULL
 })
 
+
+#' @rdname tiff_header
+#' @export
+#' @aliases tiff_header,ijtiff_img-method
+setMethod("tiff_header", "ijtiff_img", function(image) {
+  out = attributes(image)
+  out$dim_ = out$dim
+  out$chunkdim = NULL
+  out$name = NULL
+  out$filepath = NULL
+  out$class = NULL
+  out$first_val = NULL
+  out$dim = NULL
+  class(out) = "tiffHeader"
+  out
+})
+
 #' @rdname tiff_header
 #' @export
 #' @aliases tiff_header,ANY-method
-#' @importFrom RTiff tiffHeader
 setMethod("tiff_header", "ANY", function(image) {
   out = attributes(image)
+  out$chunkdim = NULL
+  out$name = NULL
+  out$filepath = NULL
+  out$class = NULL
+  out$first_val = NULL
+  out$dim = NULL
   class(out) = "tiffHeader"
   out
 })
@@ -96,6 +118,12 @@ setMethod("tiff_header", "ANY", function(image) {
 #' @export
 setMethod("tiff_header", "TiffArraySeed", function(image) {
   out = attributes(image)
+  out$chunkdim = NULL
+  out$name = NULL
+  out$filepath = NULL
+  out$class = NULL
+  out$first_val = NULL
+  out$dim = NULL
   class(out) = "tiffHeader"
   out
 })

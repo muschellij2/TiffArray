@@ -55,10 +55,10 @@ setClass("TiffMatrix", contains = c("TiffArray", "DelayedMatrix"))
 #' @importFrom rhdf5 h5read
 #' @importFrom S4Vectors new2
 #' @examples
-#' nii_fname = system.file("img", "2ch_ij.tif", package = "ijtiff")
-#' res = TiffArraySeed(nii_fname)
+#' filepath = system.file("img", "2ch_ij.tif", package = "ijtiff")
+#' res = TiffArraySeed(filepath)
 #' hdr = tiff_header(res)
-#' res2 = TiffArraySeed(nii_fname, header = hdr)
+#' res2 = TiffArraySeed(filepath, header = hdr)
 TiffArraySeed <- function(
     filepath,
     name = "image",
@@ -100,21 +100,29 @@ TiffArraySeed <- function(
     }
     args = c("TiffArraySeed", args)
     res = do.call(S4Vectors::new2, args = args)
-    attributes(res) = hdr
+    n = names(hdr)
+    n[ n == "dim" ] = "dim_"
+    names(hdr) = n
+    for (i in names(hdr)) {
+        attr(res, i) = hdr[[i]]
+    }
     res
 }
 
 write_attributes = function(filepath, name = "image", header) {
     header$chunkdim = NULL
+    header$class = NULL
+    if (length(header) == 0) {
+        return(invisible(NULL))
+    }
+    class(header) = "list"
     if ("dim" %in% names(header)) {
         if (!("dim_" %in% names(header))) {
             header$dim_ = header$dim
         }
         header$dim = NULL
     }
-    if (length(header) == 0) {
-        return(invisible(NULL))
-    }
+
     fid = rhdf5::H5Fopen(filepath)
     # open up the dataset to add attributes to, as a class
     did <- rhdf5::H5Dopen(fid, name = name)

@@ -9,6 +9,7 @@
 \alias{tiff_header,DelayedArray-method}
 \alias{tiff_header,HDF5Array-method}
 \alias{tiff_header,HDF5ArraySeed-method}
+\alias{tiff_header,ijtiff_img-method}
 \alias{tiff_header,ANY-method}
 \title{Dump a Tiff header}
 \usage{
@@ -23,6 +24,8 @@ tiff_header(image)
 \S4method{tiff_header}{HDF5Array}(image)
 
 \S4method{tiff_header}{HDF5ArraySeed}(image)
+
+\S4method{tiff_header}{ijtiff_img}(image)
 
 \S4method{tiff_header}{ANY}(image)
 

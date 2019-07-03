@@ -138,6 +138,9 @@ setAs("numeric", "TiffArray",
 setAs("TiffArray", "ijtiff_img", function(from) {
   hdr = tiff_header(from)
   from = as.array(from)
+  for (i in names(hdr)) {
+    attr(from, i) = hdr[[i]]
+  }
   class(from) = c("ijtiff_img", "array")
   from
 })

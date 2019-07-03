@@ -28,8 +28,8 @@ A \code{TiffArraySeed} object
 Seed for TiffArray Class
 }
 \examples{
-nii_fname = system.file("img", "2ch_ij.tif", package = "ijtiff")
-res = TiffArraySeed(nii_fname)
+filepath = system.file("img", "2ch_ij.tif", package = "ijtiff")
+res = TiffArraySeed(filepath)
 hdr = tiff_header(res)
-res2 = TiffArraySeed(nii_fname, header = hdr)
+res2 = TiffArraySeed(filepath, header = hdr)
 }
