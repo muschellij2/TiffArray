@@ -100,6 +100,14 @@ setMethod("tiff_header", "ijtiff_img", function(image) {
 #' @rdname tiff_header
 #' @export
 #' @aliases tiff_header,ANY-method
+setMethod("tiff_header", "character", function(image) {
+  image <- ijtiff::read_tif(image, frames = 1, msg = FALSE)
+  tiff_header(image)
+})
+
+#' @rdname tiff_header
+#' @export
+#' @aliases tiff_header,ANY-method
 setMethod("tiff_header", "ANY", function(image) {
   out = attributes(image)
   out$chunkdim = NULL

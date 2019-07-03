@@ -38,7 +38,7 @@ testthat::test_that("Operations and DelayedArray give header", {
   result = writeTiffArray(result, header = tiff_header(res))
   res_arr = as(result, "TiffArray")
 
-  as(res_arr, "tiffImage")
+  as(res_arr, "ijtiff_img")
 
 })
 

@@ -21,8 +21,8 @@ testthat::test_that("Writing and Reading an Array", {
   testthat::expect_true(file.exists(h5_fname))
   check_array(res)
 
-  hdr = Tiff_header(res)
-  testthat::expect_is(hdr, "TiffHeader")
+  hdr = tiff_header(res)
+  testthat::expect_is(hdr, "tiffHeader")
   rm(res)
 
   res = TiffArray(h5_fname)
@@ -35,7 +35,10 @@ testthat::test_that("Checking equivalent headers", {
   hdr = tiff_header(res)
   rm(res)
 
-  testthat::expect_true(all(names(img_hdr) == names(hdr)))
+  testthat::expect_true(all(sort(names(img_hdr)) == sort(names(hdr))))
+  n = sort(names(img_hdr))
+  img_hdr = img_hdr[order(names(img_hdr))]
+  hdr = img_hdr[order(names(img_hdr))]
   testthat::expect_true(length(img_hdr) == length(hdr))
   xx = mapply(function(x, y) {
     testthat::expect_equal(x, y)

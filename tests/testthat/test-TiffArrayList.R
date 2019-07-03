@@ -30,7 +30,7 @@ testthat::test_that("Converting TiffArrayList to TiffArray", {
   testthat::expect_is(mat, "TiffArray")
   testthat::expect_equal(DelayedArray::matrixClass(mat), "TiffMatrix")
 
-  dmat = dim(mat)[4]
+  dmat = dim(mat)[5]
   testthat::expect_equal(dmat, n_images)
 
 })

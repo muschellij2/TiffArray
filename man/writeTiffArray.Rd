@@ -33,8 +33,6 @@ event that an HDF5 file already exists for \code{filepath}
 input then do not overwrite it.
 If set to \code{TRUE} then the "image" and "hdr" objects at this file
 location will overwrite.}
-
-\item{header_name}{The name of the header in the HDF5 file.}
 }
 \value{
 A \code{TiffArray} object.
